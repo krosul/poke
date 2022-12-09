@@ -17,7 +17,7 @@ const existPokemonFavorite = (id:number):boolean => {
   let favorites: number[] = JSON.parse(
     localStorage?.getItem("favorites") || "[]"
   );
-  console.log(favorites.includes(id))
+
   return !!favorites.includes(id)
 };
 

@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState,FC } from "react";
+
 
 import { Button, Card, Container, Grid, Image, Text } from "@nextui-org/react";
 import { GetStaticProps, GetStaticPaths } from "next";
-import { FC } from "react";
-import { pokeApi } from "../../api";
 import { MainLayout } from "../../components/layouts";
 import confetti from "canvas-confetti";
 
 import { Pokemon } from "../../interfaces";
 import { localFavorites } from "../../utils";
+import getPokemonInfo from '../../utils/getPokemonInfo';
 
 interface Props {
   pokemon: Pokemon;
@@ -137,17 +137,10 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id } = params as { id: string };
 
-  let { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}/`, {
-    headers: {
-      "accept-encoding": "*",
-    },
-  });
-  const pokemonFixed = [data].map((p) => {
-    return { name: p.name, sprites: p.sprites, id: p.id, types: p.types };
-  });
+
   return {
     props: {
-      pokemon: pokemonFixed[0],
+      pokemon: await getPokemonInfo(id)
     },
   };
 };

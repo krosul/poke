@@ -9,7 +9,11 @@ interface props {
   title?: string;
 }
 
+const origin=(typeof window==="undefined"?"":window.location.origin)
+
 export const MainLayout: FC<props> = ({ children, title }) => {
+
+
   return (
     <>
       <Head>
@@ -20,6 +24,19 @@ export const MainLayout: FC<props> = ({ children, title }) => {
           content={`Informacion sobre el pokemon ${title}`}
         />
         <meta name="keywords" content={`${title},pokemon,pokedex`} />
+        <meta
+          property="og:title"
+          content={`
+          information about pokemon ${title}`}
+        />
+        <meta
+          property="og:description"
+          content={`this is the page about ${title}`}
+        />
+        <meta
+          property="og:image"
+          content={`${origin}/img/banner.png`}
+        />
       </Head>
       <Navbar />
       <main style={{ padding: "0px 20px" }}>{children}</main>
